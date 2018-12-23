@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "AndrewRazumovsky.vscode-styled-jsx-languageserver",
+    "blanu.vscode-styled-jsx",
+    "dbaeumer.vscode-eslint",
+    "eg2.tslint",
+    "esbenp.prettier-vscode",
+    "formulahendry.auto-close-tag6",
+    "formulahendry.auto-rename-tag",
+    "msjsdiag.debugger-for-chrome"
+  ]
+}
