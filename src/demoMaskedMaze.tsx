@@ -2,7 +2,7 @@ import { Point, sample } from './util'
 import grid, { Cell } from './grid'
 import pixelsFromImage from './pixelsFromImage'
 
-export default function maskedMaze (ctx: CanvasRenderingContext2D, logo: string) {
+export default function maskedMaze (ctx: CanvasRenderingContext2D, logo: string, onFinish: () => void) {
   const { width, height } = ctx.canvas
   const cellSize = 4
   const halfCellSize = cellSize / 2
@@ -82,8 +82,13 @@ export default function maskedMaze (ctx: CanvasRenderingContext2D, logo: string)
   function init () {
     stack.length = 0
     const start = sample(maze.cells().filter(c => !visited.has(c) && mask[c.idx]))
-    stack.push(start)
-    visited.add(start)
+
+    if (start) {
+      stack.push(start)
+      visited.add(start)
+    } else {
+      onFinish()
+    }
   }
 
   return {

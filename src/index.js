@@ -7,12 +7,28 @@ import DemoController from './DemoController'
 import demoMask from './demoMaskedMaze'
 
 class App extends React.Component {
+  constructor () {
+    super()
+    this.footer = React.createRef()
+  }
+
   render () {
     return (
       <div id="logo">
         <div className="canvas">
-          <DemoController demoFac={ctx => demoMask(ctx, xmas)} />
+          <DemoController
+            demoFac={ctx =>
+              demoMask(ctx, xmas, () => {
+                this.footer.current.style.visibility = 'visible'
+              })
+            }
+          />
         </div>
+        <footer ref={this.footer}>
+          <div>
+            ...&nbsp;from&nbsp;<a href="https://github.com/dchowitz/xmaze">dchowitz</a> (aka foobar (fka prensen))
+          </div>
+        </footer>
         <style jsx>{`
           #logo {
             position: relative;
@@ -32,6 +48,16 @@ class App extends React.Component {
             left: 0;
             right: 0;
             z-index: 100;
+          }
+          footer {
+            visibility: hidden;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            position: absolute;
+            bottom: 2em;
+            font-family: monospace;
+            z-index: 200;
           }
         `}</style>
       </div>
