@@ -5,6 +5,8 @@ import demoMask from "./demoMaskedMaze";
 
 export default function App() {
   const [showFooter, setShowFooter] = React.useState(false);
+  const gitHash = (import.meta.env.VITE_NETLIFY_GITHASH ||
+    import.meta.env.VITE_GITHASH) as string;
 
   return (
     <div id="logo">
@@ -20,9 +22,7 @@ export default function App() {
           (fka prensen))
         </div>
         <pre>
-          build {import.meta.env.VITE_DATE} (
-          {import.meta.env.VITE_NETLIFY_GITHASH || import.meta.env.VITE_GITHASH}
-          )
+          build {import.meta.env.VITE_DATE} ({gitHash.slice(0, 6)})
         </pre>
       </footer>
     </div>
