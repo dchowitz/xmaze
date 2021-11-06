@@ -2,8 +2,9 @@
   "name": "xmaze-vite",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "setenv": "echo VITE_DATE=$(date '+%FT%T') > .env && echo VITE_GITHASH=$(git show-ref -s6 HEAD) >> .env",
+    "dev": "npm run setenv && vite",
+    "build": "npm run setenv && tsc && vite build",
     "serve": "vite preview"
   },
   "dependencies": {
