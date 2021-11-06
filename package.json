@@ -2,7 +2,7 @@
   "name": "xmaze-vite",
   "version": "0.0.0",
   "scripts": {
-    "setenv": "echo VITE_DATE=$(date '+%FT%T') > .env && echo VITE_GITHASH=$(git show-ref -s6 HEAD) >> .env",
+    "setenv": "echo VITE_DATE=$(date '+%FT%T') > .env && echo VITE_GITHASH=$(git show-ref -s6 HEAD) >> .env && echo VITE_NETLIFY_GITHASH=$(echo $COMMIT_REF) >> .env",
     "dev": "npm run setenv && vite",
     "build": "npm run setenv && tsc && vite build",
     "serve": "vite preview"

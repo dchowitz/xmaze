@@ -20,7 +20,9 @@ export default function App() {
           (fka prensen))
         </div>
         <pre>
-          build {import.meta.env.VITE_DATE} ({import.meta.env.VITE_GITHASH})
+          build {import.meta.env.VITE_DATE} (
+          {import.meta.env.VITE_NETLIFY_GITHASH || import.meta.env.VITE_GITHASH}
+          )
         </pre>
       </footer>
     </div>
