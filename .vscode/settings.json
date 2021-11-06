@@ -1,8 +1,5 @@
 {
-  "editor.fontSize": 12,
-  // Place your settings in this file to overwrite default and user settings.
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "prettier.eslintIntegration": true,
-  "prettier.printWidth": 120,
-  "git.ignoreLimitWarning": true
+  "prettier.printWidth": 80
 }

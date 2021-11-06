@@ -1,52 +1,47 @@
-import React from 'react'
+import * as React from "react";
+import { Point } from "./util";
 
-import { Point } from './util'
+export default function Canvas(props: {
+  contextAvailable: (ctx: CanvasRenderingContext2D) => void;
+  onClick: (p: Point) => void;
+  onMove: (p: Point) => void;
+  width?: number;
+  height?: number;
+}) {
+  const { width, height, contextAvailable, onClick, onMove } = props;
+  const offsetLeft = React.useRef(0);
+  const offsetTop = React.useRef(0);
+  const called = React.useRef(false);
 
-type CanvasProps = {
-  contextAvailable: (ctx: CanvasRenderingContext2D) => void
-  onClick: (p: Point) => void
-  onMove: (p: Point) => void
-  width?: number
-  height?: number
-}
+  return (
+    <canvas
+      width={width}
+      height={height}
+      ref={(node) => {
+        if (called.current) return;
+        if (!node) return;
+        const logoNode = document.getElementById("logo")!;
 
-export default class Canvas extends React.Component<CanvasProps> {
-  private _offsetLeft: number
-  private _offsetTop: number
+        if (!width) node.width = logoNode.offsetWidth;
+        if (!height) node.height = logoNode.offsetHeight;
 
-  constructor (props: CanvasProps) {
-    super(props)
-  }
-
-  render () {
-    return (
-      <canvas
-        width={this.props.width}
-        height={this.props.height}
-        ref={node => {
-          if (!node) return
-          const logoNode = document.getElementById('logo')
-
-          if (!this.props.width) node.width = logoNode.offsetWidth
-          if (!this.props.height) node.height = logoNode.offsetHeight
-
-          this._offsetLeft = node.offsetLeft
-          this._offsetTop = node.offsetTop
-          this.props.contextAvailable(node.getContext('2d'))
-        }}
-        onClick={e => {
-          this.props.onClick({
-            x: e.pageX - this._offsetLeft,
-            y: e.pageY - this._offsetTop
-          })
-        }}
-        onMouseMove={e => {
-          this.props.onMove({
-            x: e.pageX - this._offsetLeft,
-            y: e.pageY - this._offsetTop
-          })
-        }}
-      />
-    )
-  }
+        offsetLeft.current = node.offsetLeft;
+        offsetTop.current = node.offsetTop;
+        contextAvailable(node.getContext("2d")!);
+        called.current = true;
+      }}
+      onClick={(e) => {
+        onClick({
+          x: e.pageX - offsetLeft.current,
+          y: e.pageY - offsetTop.current,
+        });
+      }}
+      onMouseMove={(e) => {
+        onMove({
+          x: e.pageX - offsetLeft.current,
+          y: e.pageY - offsetTop.current,
+        });
+      }}
+    />
+  );
 }
