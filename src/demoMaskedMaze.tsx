@@ -1,10 +1,12 @@
 import { Point, sample } from "./util";
 import grid, { Cell } from "./grid";
 import pixelsFromImage from "./pixelsFromImage";
+import xmas from "./merry-xmas.png";
+import pixelsFromText from "./pixelsFromText";
 
 export default function maskedMaze(
   ctx: CanvasRenderingContext2D,
-  logo: string,
+  text: string | undefined,
   onFinish: () => void
 ) {
   const { width, height } = ctx.canvas;
@@ -19,7 +21,7 @@ export default function maskedMaze(
   let maskResolved = false;
   let mask: string[];
 
-  pixelsFromImage(logo).then((imageData) => {
+  (text ? pixelsFromText(text) : pixelsFromImage(xmas)).then((imageData) => {
     const {
       width: logoWidth,
       height: logoHeight,
@@ -27,17 +29,23 @@ export default function maskedMaze(
     } = imageData;
     const factor = Math.max(logoWidth / width, logoHeight / height);
 
+    const colors = new Set<string>();
+
     mask = maze.cells().map((c) => {
       const x = Math.floor(c.x * factor);
       const y = Math.floor(c.y * factor);
       if (x >= logoWidth || y >= logoHeight) return "";
 
       const pixelIdx = (y * logoWidth + x) * 4;
-      const [r, g, b] = logoPixels.slice(pixelIdx, pixelIdx + 3);
+      const [r, g, b, a] = logoPixels.slice(pixelIdx, pixelIdx + 4);
 
       const notWhite = r + g + b < 600;
-      return (notWhite && `rgb(${r}, ${g}, ${b})`) || "";
+      const color = (notWhite && `rgba(${r}, ${g}, ${b}, ${a})`) || "";
+      colors.add(color);
+      return color;
     });
+
+    //console.log(colors);
 
     maskResolved = true;
     init();
@@ -46,7 +54,7 @@ export default function maskedMaze(
   function next() {
     if (!maskResolved) return;
 
-    let i = 10;
+    let i = 20;
     while (--i > 0) {
       const current = stack[stack.length - 1];
       if (!current) {

@@ -15,6 +15,7 @@ export default function Canvas(props: {
 
   return (
     <canvas
+      id="demo-canvas"
       width={width}
       height={height}
       ref={(node) => {

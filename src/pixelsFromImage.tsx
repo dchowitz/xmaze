@@ -1,8 +1,8 @@
 export default async function pixelsFromImage(
-  logo: string
+  imageUrl: string
 ): Promise<ImageData> {
   const img = new Image();
-  img.src = logo;
+  img.src = imageUrl;
   return new Promise((resolve) => {
     img.onload = function () {
       const canvas = document.createElement("canvas");
